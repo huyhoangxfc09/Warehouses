@@ -9,5 +9,8 @@ public interface CRUD <E>{
     void  update(Scanner scanner);
     void delete(Scanner scanner);
     void displayAll(List<E> element);
+    void  outputFile(String path);
+    void inputFile(String path);
+
 
 }

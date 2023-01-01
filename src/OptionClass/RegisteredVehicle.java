@@ -1,6 +1,8 @@
 package OptionClass;
 
-public class RegisteredVehicle {
+import java.io.Serializable;
+
+public class RegisteredVehicle implements Serializable {
     private int number;
     private String name;
 

@@ -1,5 +1,6 @@
 package Manager;
 
+import OptionClass.Product;
 import OptionClass.RegisteredVehicle;
 
 import java.io.*;
@@ -8,17 +9,18 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class ManagerRegisteredVehicle implements CRUD<RegisteredVehicle> {
+public class RegisteredVehicleManager implements CRUD<RegisteredVehicle> {
     private ArrayList<RegisteredVehicle> listVehicle;
     static int index = 0;
 
-    public ManagerRegisteredVehicle() {
+    public RegisteredVehicleManager() {
         listVehicle = new ArrayList<>();
     }
 
     public ArrayList<RegisteredVehicle> getListVehicle() {
         return listVehicle;
     }
+    public String pathVehicle = "C:\\Users\\PC\\OneDrive\\Desktop\\CaseStudyModule2\\Warehouses\\src\\FileSave\\LicensePlates";
 
     @Override
     public RegisteredVehicle create(Scanner scanner) {
@@ -52,12 +54,14 @@ public class ManagerRegisteredVehicle implements CRUD<RegisteredVehicle> {
     public void update(Scanner scanner) {
         int number = 0;
         boolean check = true;
-        while (check) try {
-            System.out.println("Enter the number: ");
-            number = Integer.parseInt(scanner.nextLine());
-            check = false;
-        } catch (InputMismatchException | NumberFormatException e) {
-            System.out.println("Re-enter number.");
+        while (check){
+            try {
+                System.out.println("Enter the number: ");
+                number = Integer.parseInt(scanner.nextLine());
+                check = false;
+            } catch (InputMismatchException | NumberFormatException e) {
+                System.out.println("Re-enter number.");
+            }
         }
         if (checkNumber(number)) {
             for (RegisteredVehicle e : listVehicle) {
@@ -90,6 +94,7 @@ public class ManagerRegisteredVehicle implements CRUD<RegisteredVehicle> {
                 if (e.getName().equals(name)) {
                     tempt = e;
                     index = e.getNumber();
+                    titleVehicle();
                     e.displayVehicle();
                 }
             }
@@ -101,7 +106,7 @@ public class ManagerRegisteredVehicle implements CRUD<RegisteredVehicle> {
             listVehicle.remove(tempt);
             System.out.println("Delete successfully!");
         } else {
-            System.out.println("There is no license plate to delete in the list");
+            System.out.println("There is no license plate to delete in the list.");
         }
     }
 
@@ -156,6 +161,8 @@ public class ManagerRegisteredVehicle implements CRUD<RegisteredVehicle> {
             System.out.println("License plate does not exist.");
         }
     }
+
+    @Override
    public void outputFile(String path){
        File file = new File(path);
        try{
@@ -168,9 +175,9 @@ public class ManagerRegisteredVehicle implements CRUD<RegisteredVehicle> {
        }
    }
 
+   @Override
    public void inputFile(String path){
        File file = new File(path);
-
         try{
             InputStream is =new  FileInputStream(file);
             if( is.available()>0){
@@ -184,18 +191,27 @@ public class ManagerRegisteredVehicle implements CRUD<RegisteredVehicle> {
             throw new RuntimeException(e);
         }
    }
+    public RegisteredVehicle getByNumber(int idCar){
+        for (RegisteredVehicle e: listVehicle){
+            if (e.getNumber()==idCar){
+                return e;
+            }
+        }
+        return null;
+    }
 
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ManagerRegisteredVehicle managerRegisteredVehicle = new ManagerRegisteredVehicle();
+        RegisteredVehicleManager registeredVehicleManager = new RegisteredVehicleManager();
         String path = "C:\\Users\\PC\\OneDrive\\Desktop\\CaseStudyModule2\\Warehouses\\src\\FileSave\\LicensePlates";
+        registeredVehicleManager.inputFile(path);
         int choice;
         boolean check = true;
         while (check) {
             try {
                 do {
-                    System.out.println("MENU:");
+                    System.out.println("MENU VEHICLE:");
                     System.out.println("1. Add new listVehicle. ");
                     System.out.println("2. Update listVehicle by Id. ");
                     System.out.println("3. Delete listVehicle. ");
@@ -206,29 +222,31 @@ public class ManagerRegisteredVehicle implements CRUD<RegisteredVehicle> {
                     choice = Integer.parseInt(scanner.nextLine());
                     switch (choice) {
                         case 1:
-                            RegisteredVehicle registeredVehicle = managerRegisteredVehicle.create(scanner);
-                            managerRegisteredVehicle.add(registeredVehicle);
-                            managerRegisteredVehicle.outputFile(path);
+                            RegisteredVehicle registeredVehicle = registeredVehicleManager.create(scanner);
+                            registeredVehicleManager.add(registeredVehicle);
+                            registeredVehicleManager.outputFile(path);
                             check = false;
                             break;
                         case 2:
-                            managerRegisteredVehicle.displayAll(managerRegisteredVehicle.getListVehicle());
-                            managerRegisteredVehicle.update(scanner);
+                            registeredVehicleManager.displayAll(registeredVehicleManager.getListVehicle());
+                            registeredVehicleManager.update(scanner);
+                            registeredVehicleManager.outputFile(path);
                             check = false;
                             break;
                         case 3:
-                            managerRegisteredVehicle.displayAll(managerRegisteredVehicle.getListVehicle());
-                            managerRegisteredVehicle.delete(scanner);
+                            registeredVehicleManager.displayAll(registeredVehicleManager.getListVehicle());
+                            registeredVehicleManager.delete(scanner);
+                            registeredVehicleManager.outputFile(path);
                             check = false;
                             break;
                         case 4:
-                            managerRegisteredVehicle.displayAll(managerRegisteredVehicle.getListVehicle());
-                            managerRegisteredVehicle.searchName(scanner);
+                            registeredVehicleManager.displayAll(registeredVehicleManager.getListVehicle());
+                            registeredVehicleManager.searchName(scanner);
                             check = false;
                             break;
 
                         case 5:
-                            managerRegisteredVehicle.displayAll(managerRegisteredVehicle.getListVehicle());
+                            registeredVehicleManager.displayAll(registeredVehicleManager.getListVehicle());
                             check = false;
                             break;
                     }
