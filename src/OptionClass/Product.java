@@ -6,13 +6,15 @@ public class Product implements Serializable {
     private int number;
     private String code;
     private String name;
-    public String type;
+    private String type;
+    private double price;
 
-    public Product(int number, String code, String name, String type) {
+    public Product(int number, String code, String name, String type, double price) {
         this.number = number;
         this.code = code;
         this.name = name;
         this.type = type;
+        this.price = price;
     }
 
     public int getNumber() {
@@ -47,7 +49,15 @@ public class Product implements Serializable {
         this.type = type;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public void displayProduct(){
-        System.out.printf("%-15s%-20s%-20s%s",number,code,name,type+"\n");
+        System.out.printf("%-15s%-20s%-30s%-20s%s",number,code,name,type,price+"\n");
     }
 }

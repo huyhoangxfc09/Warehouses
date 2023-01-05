@@ -2,7 +2,6 @@ package Manager;
 
 import OptionClass.Company;
 import OptionClass.Product;
-import OptionClass.RegisteredVehicle;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -13,14 +12,14 @@ import java.util.Scanner;
 public class CompanyManager implements CRUD<Company> {
     private ArrayList<Company> listCompany;
     private final ProductManager productManager;
-    private final RegisteredVehicleManager registeredVehicleManager;
     static int index = 0;
 
-    public CompanyManager(ProductManager productManager, RegisteredVehicleManager registeredVehicleManager) {
+    public CompanyManager(ProductManager productManager) {
         listCompany = new ArrayList<>();
         this.productManager = productManager;
-        this.registeredVehicleManager = registeredVehicleManager;
     }
+
+    public String pathCompany = "C:\\Users\\PC\\OneDrive\\Desktop\\CaseStudyModule2\\Warehouses\\src\\FileSave\\Company";
 
     public ArrayList<Company> getCompanyManager() {
         return listCompany;
@@ -38,9 +37,7 @@ public class CompanyManager implements CRUD<Company> {
         String name = scanner.nextLine();
         productManager.displayAll(productManager.getListProduct());
         Product product = choiceProduct(scanner);
-        registeredVehicleManager.displayAll(registeredVehicleManager.getListVehicle());
-        RegisteredVehicle registeredVehicle = choiceCar(scanner);
-        return new Company(number,name,product,registeredVehicle);
+        return new Company(number, name, product);
     }
 
     @Override
@@ -57,36 +54,28 @@ public class CompanyManager implements CRUD<Company> {
         boolean check = true;
         while (check) {
             try {
-                System.out.println("Enter the delete order number: ");
+                System.out.println("Enter the update order number: ");
                 number = Integer.parseInt(scanner.nextLine());
                 check = false;
             } catch (InputMismatchException | NumberFormatException e) {
                 System.out.println("Re-enter number.");
             }
         }
-        if (checkNumber(number)){
-            for (Company e : listCompany){
-                if (e.getNumber()==number){
+        if (checkNumber(number)) {
+            for (Company e : listCompany) {
+                if (e.getNumber() == number) {
                     System.out.println("Enter company name: ");
                     String name = scanner.nextLine();
-                    if (!name.equals("")){
+                    if (!name.equals("")) {
                         e.setName(name);
                     }
                     System.out.println("Do you want to change the product?");
                     System.out.println("Enter Y to update and any keyword to skip: ");
                     String choiceP = scanner.nextLine();
-                    if (choiceP.equalsIgnoreCase("Y")){
+                    if (choiceP.equalsIgnoreCase("Y")) {
                         productManager.displayAll(productManager.getListProduct());
                         Product product = choiceProduct(scanner);
                         e.setProduct(product);
-                    }
-                    System.out.println("Do you want to change the car?");
-                    System.out.println("Enter Y to update and any keyword to skip: ");
-                    String choiceC = scanner.nextLine();
-                    if (choiceC.equalsIgnoreCase("Y")){
-                        registeredVehicleManager.displayAll(registeredVehicleManager.getListVehicle());
-                        RegisteredVehicle car = choiceCar(scanner);
-                        e.setLicensePlates(car);
                     }
                     System.out.println("Update company successfully!");
                     titleCompany();
@@ -94,7 +83,7 @@ public class CompanyManager implements CRUD<Company> {
 
                 }
             }
-        }else {
+        } else {
             System.out.println("There is no sequence number in the list.");
         }
     }
@@ -116,7 +105,7 @@ public class CompanyManager implements CRUD<Company> {
         if (checkNumber(number)) {
             Company tempt = null;
             for (Company e : listCompany) {
-                if (e.getNumber()==number) {
+                if (e.getNumber() == number) {
                     tempt = e;
                     index = e.getNumber();
                     titleCompany();
@@ -180,7 +169,7 @@ public class CompanyManager implements CRUD<Company> {
 
     public void titleCompany() {
         System.out.printf("%-10s%-25s%-15s%-30s%-20s%s",
-                "NUMBER", "NAME", "CODE", "PRODUCT", "TYPE", "CAR\n");
+                "NUMBER", "NAME", "CODE", "PRODUCT", "TYPE","PRICE\n");
     }
 
     public Product choiceProduct(Scanner scanner) {
@@ -204,150 +193,69 @@ public class CompanyManager implements CRUD<Company> {
         } else {
             product = productManager.getByNumber(idProduct);
         }
-        if (product!=null){
+        if (product != null) {
             return product;
-        }else {
+        } else {
             return choiceProduct(scanner);
         }
     }
-    public RegisteredVehicle choiceCar(Scanner scanner) {
-        RegisteredVehicle car;
-        boolean check = true;
-        int idCar = 0;
-        while (check) {
-            try {
-                System.out.println("Enter choice car by number: (Enter 0 for create new)");
-                idCar = Integer.parseInt(scanner.nextLine());
-                check = false;
-            } catch (InputMismatchException | NumberFormatException e) {
-                System.out.println("Re-enter number product.");
-            }
-        }
-        if (idCar == 0) {
-            car = registeredVehicleManager.create(scanner);
-            registeredVehicleManager.add(car);
-            registeredVehicleManager.outputFile(registeredVehicleManager.pathVehicle);
-            registeredVehicleManager.inputFile(registeredVehicleManager.pathVehicle);
-        } else {
-            car = registeredVehicleManager.getByNumber(idCar);
-        }
-        if (car!=null){
-            return car;
-        }else {
-            return choiceCar(scanner);
-        }
-    }
-    public boolean checkNumber(int number){
-        for (Company e: listCompany){
-            if (e.getNumber()==number){
+
+    public boolean checkNumber(int number) {
+        for (Company e : listCompany) {
+            if (e.getNumber() == number) {
                 return true;
             }
         }
         return false;
     }
-    public void searchName(Scanner scanner){
+
+    public void searchName(Scanner scanner) {
         ArrayList<Company> listName = new ArrayList<>();
         System.out.println("Enter the name of the company you are looking for: ");
         String nameSearch = scanner.nextLine();
-        for (Company e : listCompany){
-            if (e.getName().toLowerCase().contains(nameSearch.toLowerCase())){
+        for (Company e : listCompany) {
+            if (e.getName().toLowerCase().contains(nameSearch.toLowerCase())) {
                 listName.add(e);
             }
         }
-        if (!listName.isEmpty()){
+        if (!listName.isEmpty()) {
             titleCompany();
-            for (Company e : listCompany){
+            for (Company e : listCompany) {
                 e.displayCompany();
             }
-        }else {
+        } else {
             System.out.println("Name not found in the list.");
         }
     }
 
-    public void  searchCode(Scanner scanner){
-        ArrayList<Company> listCode= new ArrayList<>();
-        System.out.println("Enter the code to search: ");
-        String codeSearch = scanner.nextLine();
-        registeredVehicleManager.displayAll(registeredVehicleManager.getListVehicle());
-        for (Company e : listCompany){
-            if (e.getProduct().getCode().equals(codeSearch)){
-               listCode.add(e);
+    public Company getByNumber(int idCompany) {
+        for (Company e : listCompany) {
+            if (e.getNumber() == idCompany) {
+                return e;
             }
         }
-        if (!listCode.isEmpty()){
-            titleCompany();
-            for (Company e : listCode){
-                e.displayCompany();
-            }
-        }else {
-            System.out.println("Code not found in the list.");
-        }
+        return null;
     }
-
-    public static void main(String[] args) {
-            Scanner scanner = new Scanner(System.in);
-            ProductManager productManager = new ProductManager();
-            RegisteredVehicleManager registeredVehicleManager = new RegisteredVehicleManager();
-            CompanyManager companyManager = new CompanyManager(productManager,registeredVehicleManager);
-            String path = "C:\\Users\\PC\\OneDrive\\Desktop\\CaseStudyModule2\\Warehouses\\src\\FileSave\\Company";
-            productManager.inputFile(productManager.pathProduct);
-            registeredVehicleManager.inputFile(registeredVehicleManager.pathVehicle);
-            companyManager.inputFile(path);
-            int choice;
-            boolean check = true;
-            while (check) {
-                try {
-                    do {
-                        System.out.println("MENU VEHICLE:");
-                        System.out.println("1. Add new company. ");
-                        System.out.println("2. Update company by number. ");
-                        System.out.println("3. Delete company by number. ");
-                        System.out.println("4. Show companies by name. ");
-                        System.out.println("5. Show companies by code. ");
-                        System.out.println("6. Display all company. ");
-                        System.out.println("0. Exit.");
-                        System.out.println("Enter your choice: ");
-                        choice = Integer.parseInt(scanner.nextLine());
-                        switch (choice) {
-                            case 1:
-                                Company company = companyManager.create(scanner);
-                                companyManager.add(company);
-                                companyManager.outputFile(path);
-                                check = false;
-                                break;
-                            case 2:
-                                companyManager.displayAll(companyManager.getCompanyManager());
-                                companyManager.update(scanner);
-                                companyManager.outputFile(path);
-                                check = false;
-                                break;
-                            case 3:
-                                companyManager.displayAll(companyManager.getCompanyManager());
-                                companyManager.delete(scanner);
-                                companyManager.outputFile(path);
-                                check = false;
-                                break;
-                            case 4:
-                                companyManager.displayAll(companyManager.getCompanyManager());
-                                companyManager.searchName(scanner);
-                                check = false;
-                                break;
-                            case 5:
-                                companyManager.displayAll(companyManager.getCompanyManager());
-                                companyManager.searchCode(scanner);
-                                check = false;
-                                break;
-                            case 6:
-                                companyManager.displayAll(companyManager.getCompanyManager());
-                                check = false;
-                                break;
-                        }
-                    } while (choice != 0);
-                } catch (InputMismatchException | NumberFormatException e) {
-                    System.out.println("Re-enter choice.");
+    public void  searchCode(Scanner scanner){
+        if (!listCompany.isEmpty()){
+            System.out.println("Enter the code you want to search: ");
+            String code = scanner.nextLine();
+            Company tempt = null;
+            for (Company e:listCompany) {
+                if (e.getProduct().getCode().equals(code)){
+                    tempt = e;
                 }
             }
+            if (tempt!=null){
+                System.out.println("--RESULT--");
+                titleCompany();
+                tempt.displayCompany();
+            }else {
+                System.out.println("There are no product codes in the list");
+            }
+        }else {
+            System.out.println("The list is empty.");
         }
 
-
+    }
 }

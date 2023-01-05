@@ -1,11 +1,9 @@
 package Manager;
 
 import OptionClass.Product;
+
 import java.io.*;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ProductManager implements CRUD<Product> {
 
@@ -19,6 +17,7 @@ public class ProductManager implements CRUD<Product> {
     public ArrayList<Product> getListProduct() {
         return listProduct;
     }
+
     public String pathProduct = "C:\\Users\\PC\\OneDrive\\Desktop\\CaseStudyModule2\\Warehouses\\src\\FileSave\\Production";
 
     @Override
@@ -35,8 +34,19 @@ public class ProductManager implements CRUD<Product> {
             System.out.println("Enter product name: ");
             String name = scanner.nextLine();
             System.out.println("Enter product type: ");
-            String type = scanner.nextLine();
-            return new Product(number, code, name,type);
+            String type = choiceType(scanner);
+            boolean check = true;
+            double price = 0;
+            while (check) {
+                try {
+                    System.out.println("Enter the price of a product: ");
+                    price = Double.parseDouble(scanner.nextLine());
+                    check = false;
+                } catch (InputMismatchException | NumberFormatException e) {
+                    System.out.println("Re-enter price.");
+                }
+            }
+            return new Product(number, code, name, type, price);
         } else {
             return null;
         }
@@ -46,6 +56,7 @@ public class ProductManager implements CRUD<Product> {
     public void add(Product product) {
         if (product != null) {
             listProduct.add(product);
+            System.out.println("Add product successfully!");
             titleProduct();
             product.displayProduct();
         } else {
@@ -75,14 +86,26 @@ public class ProductManager implements CRUD<Product> {
                         e.setCode(code);
                         System.out.println("Enter product name: ");
                         String name = scanner.nextLine();
-                        if (!name.equals("")){
+                        if (!name.equals("")) {
                             e.setName(name);
                         }
                         System.out.println("Enter product type: ");
-                        String type = scanner.nextLine();
-                        if (!type.equals("")){
+                        String type = choiceType(scanner);
+                        if (!type.equals("")) {
                             e.setType(type);
                         }
+                        check = true;
+                        double price = 0;
+                        while (check) {
+                            try {
+                                System.out.println("Enter the price of a product: ");
+                                price = Double.parseDouble(scanner.nextLine());
+                                check = false;
+                            } catch (InputMismatchException | NumberFormatException exception) {
+                                System.out.println("Re-enter price.");
+                            }
+                        }
+                        e.setPrice(price);
                         System.out.println("Update successfully!");
                     }
                 }
@@ -132,42 +155,45 @@ public class ProductManager implements CRUD<Product> {
         }
     }
 
-    public void searchName(Scanner scanner){
-        ArrayList<Product>list = new ArrayList<>();
+    public void searchName(Scanner scanner) {
+        ArrayList<Product> list = new ArrayList<>();
         System.out.println("Enter the name of the product you want to search for: ");
         String nameSearch = scanner.nextLine();
-        for (Product e : listProduct){
-            if (e.getName().toLowerCase().contains(nameSearch.toLowerCase())){
+        for (Product e : listProduct) {
+            if (e.getName().toLowerCase().contains(nameSearch.toLowerCase())) {
                 list.add(e);
             }
         }
-        if (!list.isEmpty()){
+        if (!list.isEmpty()) {
             titleProduct();
-            for (Product e : listProduct){
+            for (Product e : listProduct) {
                 e.displayProduct();
             }
-        }else {
+        } else {
             System.out.println("There are no products in the list.");
         }
     }
-    public void searchType(Scanner scanner){
+
+    public void searchType(Scanner scanner) {
         ArrayList<Product> listType = new ArrayList<>();
         System.out.println("Enter the type of the product you want to search for: ");
-        String typeSearch = scanner.nextLine();
-        for (Product e : listProduct){
-            if (e.getType().toLowerCase().contains(typeSearch.toLowerCase())){
+        String typeSearch = choiceType(scanner);
+        for (Product e : listProduct) {
+            if (e.getType().toLowerCase().contains(typeSearch.toLowerCase())) {
                 listType.add(e);
             }
         }
-        if (!listType.isEmpty()){
+        System.out.println("---RESULT---");
+        if (!listType.isEmpty()) {
             titleProduct();
-            for (Product e : listType){
+            for (Product e : listType) {
                 e.displayProduct();
             }
-        }else {
+        } else {
             System.out.println("There are no products in the list.");
         }
     }
+
     @Override
     public void outputFile(String path) {
         File file = new File(path);
@@ -217,76 +243,44 @@ public class ProductManager implements CRUD<Product> {
     }
 
     public void titleProduct() {
-        System.out.printf("%-15s%-20s%-20s%s", "NUMBER", "CODE", "PRODUCT NAME","TYPE\n");
+        System.out.printf("%-15s%-20s%-30s%-20s%s", "NUMBER", "CODE", "PRODUCT NAME", "TYPE", "PRICE\n");
     }
 
-    public Product getByNumber(int idProduct){
-        for (Product e: listProduct){
-            if (e.getNumber()==idProduct){
+    public Product getByNumber(int idProduct) {
+        for (Product e : listProduct) {
+            if (e.getNumber() == idProduct) {
                 return e;
             }
         }
         return null;
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        ProductManager productManager = new ProductManager();
-        String path = "C:\\Users\\PC\\OneDrive\\Desktop\\CaseStudyModule2\\Warehouses\\src\\FileSave\\Production";
-        productManager.inputFile(path);
+    public String choiceType(Scanner scanner) {
         int choice;
-        boolean check = true;
-        while (check) {
-            try {
-                do {
-                    System.out.println("MENU VEHICLE:");
-                    System.out.println("1. Add new product. ");
-                    System.out.println("2. Update product by number. ");
-                    System.out.println("3. Delete product by code. ");
-                    System.out.println("4. Search product by name. ");
-                    System.out.println("5. Search product by name. ");
-                    System.out.println("6. Display all listVehicle. ");
-                    System.out.println("0. Exit.");
-                    System.out.println("Enter your choice: ");
-                    choice = Integer.parseInt(scanner.nextLine());
-                    switch (choice) {
-                        case 1:
-                            Product product = productManager.create(scanner);
-                            productManager.add(product);
-                            productManager.outputFile(path);
-                            check = false;
-                            break;
-                        case 2:
-                            productManager.displayAll(productManager.getListProduct());
-                            productManager.update(scanner);
-                            productManager.outputFile(path);
-                            check = false;
-                            break;
-                        case 3:
-                            productManager.displayAll(productManager.getListProduct());
-                            productManager.delete(scanner);
-                            productManager.outputFile(path);
-                            check = false;
-                            break;
-                        case 4:
-                            productManager.displayAll(productManager.getListProduct());
-                            productManager.searchName(scanner);
-                            check = false;
-                            break;
-                        case 5:
-                            productManager.displayAll(productManager.getListProduct());
-                            productManager.searchType(scanner);
-                            check = false;
-                            break;
-                        case 6:
-                            productManager.displayAll(productManager.getListProduct());
-                            check = false;
-                            break;
-                    }
-                } while (choice != 0);
-            } catch (InputMismatchException | NumberFormatException e) {
-                System.out.println("Re-enter choice.");
+        String type = "";
+        do {
+            System.out.println("1. Laptop.");
+            System.out.println("2. Mobile phone");
+            System.out.println("3. Other");
+            System.out.println("Enter choice: (1 -> 3) ");
+            choice = Integer.parseInt(scanner.nextLine());
+            switch (choice) {
+                case 1:
+                    type = "Laptop";
+                    break;
+                case 2:
+                    type = "Mobile phone";
+                    break;
+                case 3:
+                    type = "Other";
+                    break;
             }
-        }
+        } while (choice < 0 || choice > 3);
+        return type;
     }
+    public void sortPrice(){
+        listProduct.sort(Comparator.comparing(Product::getPrice));
+        displayAll(listProduct);
+    }
+
 }
