@@ -3,7 +3,6 @@ package Manager;
 import OptionClass.Customer;
 import OptionClass.InputWarehouse;
 import OptionClass.OutputWarehouse;
-
 import java.io.*;
 import java.util.*;
 
@@ -300,5 +299,13 @@ public class OutputManager implements CRUD<OutputWarehouse> {
         }else {
             System.out.println("The list is empty.");
         }
+    }
+    public OutputWarehouse getByNumber(int id) {
+        for (OutputWarehouse e : listOutput) {
+            if (e.getNumber() == id) {
+                return e;
+            }
+        }
+        return null;
     }
 }

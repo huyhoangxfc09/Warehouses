@@ -189,9 +189,9 @@ public class CustomerManager {
             System.out.println("Not found.");
         }
     }
-    public Customer getByNumber(int idProduct) {
+    public Customer getByNumber(int id) {
         for (Customer e : listCustomer) {
-            if (e.getNumber() == idProduct) {
+            if (e.getNumber() == id) {
                 return e;
             }
         }

@@ -11,7 +11,7 @@ public class LoginAdmin {
             System.out.println("Enter account password: ");
             String password = scanner.nextLine();
             if (name.equalsIgnoreCase("admin")
-                    & password.equalsIgnoreCase("admin123456")) {
+                    && password.equalsIgnoreCase("admin123456")) {
                 System.out.println("Admin login successful.");
                 admin.admin(scanner);
                 break;

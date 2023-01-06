@@ -7,6 +7,7 @@ public class OutputAccount {
     public void menu(Scanner scanner){
         MenuOutput menuOutput = new MenuOutput();
         MenuCustomer menuCustomer = new MenuCustomer();
+        MenuBill menuBill = new MenuBill();
         int choice;
         boolean check = true;
         while (check) {
@@ -15,6 +16,7 @@ public class OutputAccount {
                     System.out.println("-----MENU OUTPUT ACCOUNT-----");
                     System.out.println("1. Menu output warehouse. ");
                     System.out.println("2. Menu customer. ");
+                    System.out.println("3. Menu bill. ");
                     System.out.println("0. Exit.");
                     System.out.println("Enter your choice: ");
                     choice = Integer.parseInt(scanner.nextLine());
@@ -25,6 +27,10 @@ public class OutputAccount {
                             break;
                         case 2:
                             menuCustomer.menu(scanner);
+                            check = false;
+                            break;
+                        case 3:
+                            menuBill.menu(scanner);
                             check = false;
                             break;
 

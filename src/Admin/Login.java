@@ -1,3 +1,5 @@
+package Admin;
+
 import Account.InputAccountManager;
 import Account.OutputAccountManager;
 import Admin.LoginAdmin;

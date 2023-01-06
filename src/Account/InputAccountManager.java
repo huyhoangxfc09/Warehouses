@@ -156,7 +156,7 @@ public class InputAccountManager {
 
     public boolean checkAccountUser(String name, String password){
         for (Account e : listAccountInput) {
-            if (name.equals(e.getName())& password.equals(e.getPassword())){
+            if (name.equals(e.getName()) && password.equals(e.getPassword())){
                return true;
             }
         }return false;
@@ -170,7 +170,7 @@ public class InputAccountManager {
             System.out.println("Enter account password: ");
             String password = scanner.nextLine();
             if (checkAccountUser(name,password)){
-                System.out.println("Login successful.");
+                System.out.println("Admin.Login successful.");
                 inputAccount.menu(scanner);
                 break;
             }else {
