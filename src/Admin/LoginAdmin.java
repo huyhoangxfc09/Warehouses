@@ -1,7 +1,4 @@
 package Admin;
-
-import MenuAdminManager.MenuAdmin;
-
 import java.util.Scanner;
 
 public class LoginAdmin {

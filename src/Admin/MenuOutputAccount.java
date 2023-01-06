@@ -15,7 +15,8 @@ public class MenuOutputAccount {
                     System.out.println("-----MENU OUTPUT ACCOUNT-----");
                     System.out.println("1. Add new account. ");
                     System.out.println("2. Delete new account. ");
-                    System.out.println("3. Display account. ");
+                    System.out.println("3. Update account. ");
+                    System.out.println("4. Display account. ");
                     System.out.println("0. Exit.");
                     System.out.println("Enter your choice: ");
                     choice = Integer.parseInt(scanner.nextLine());
@@ -31,6 +32,11 @@ public class MenuOutputAccount {
                             check =false;
                             break;
                         case 3:
+                            outputAccountManager.update(scanner);
+                            outputAccountManager.outputFile(outputAccountManager.pathOutputAccount);
+                            check =false;
+                            break;
+                        case 4:
                             outputAccountManager.displayAccount();
                             check =false;
                             break;

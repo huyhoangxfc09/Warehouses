@@ -1,7 +1,5 @@
 package MenuOutput;
-
 import MenuAdminManager.MenuOutput;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 

@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class InputAccountManager {
     private List<Account> listAccountInput = new ArrayList<>();
-    private final String REGEX = "^[A-Za-z1-9]{5,16}";
+    private final String REGEX = "^[A-Za-z0-9]{5,16}";
     public String pathInputAccount = "C:\\Users\\PC\\OneDrive\\Desktop\\CaseStudyModule2\\Warehouses\\src\\FileSave\\InputAccount";
 
     public void creatAccount(Scanner scanner) {
@@ -70,6 +70,55 @@ public class InputAccountManager {
         Account account = new Account(name, password);
         listAccountInput.add(account);
     }
+    public void update(Scanner scanner){
+        System.out.println("Enter account name update: ");
+        String name = scanner.nextLine();
+        String password = null;
+        String passwordRe;
+        if (checkName(name)){
+            boolean check = true;
+
+            while (check) {
+                System.out.println("Enter password: ");
+                password = scanner.nextLine();
+                Pattern pattern = Pattern.compile(REGEX);
+                Matcher matcher = pattern.matcher(password);
+                if ((matcher.matches())) {
+                    check = false;
+                } else {
+                    System.out.println("Password must be at least 5 characters and no special characters");
+                }
+            }
+            check = true;
+            System.out.println("Confirm password: ");
+            while (check) {
+                System.out.println("Enter password: ");
+                passwordRe = scanner.nextLine();
+                Pattern pattern = Pattern.compile(REGEX);
+                Matcher matcher = pattern.matcher(passwordRe);
+                if ((matcher.matches())) {
+                    if (passwordRe.equals(password)) {
+                        check = false;
+                    } else {
+                        System.out.println("Password incorrect. Please re-enter.");
+                    }
+                } else {
+                    System.out.println("Password must be at least 5 characters and no special characters");
+                }
+
+            }
+        }
+
+
+    }
+    public boolean checkName(String name) {
+        for (Account e:listAccountInput) {
+            if (e.getName().equals(name)){
+                return true;
+            }
+        }return false;
+    }
+
 
     public Account checkAccount(String name) {
         for (int i = 0; i < listAccountInput.size(); i++) {
