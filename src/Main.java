@@ -1,13 +1,11 @@
-import Account.AccountManager;
-import MenuAdminManager.Admin;
-import MenuAdminManager.MenuAdmin;
+import Admin.Admin;
 
 import java.util.Scanner;
 
 public class Main {
-   static Admin admin = new Admin();
     public static void main(String[] args) {
+        Login login = new Login();
         Scanner scanner = new Scanner(System.in);
-        admin.admin(scanner);
+        login.login(scanner);
     }
 }

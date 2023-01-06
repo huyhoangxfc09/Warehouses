@@ -8,7 +8,7 @@ public class MenuAdmin {
     static MenuCompany menuCompany = new MenuCompany();
     static MenuInput menuInput = new MenuInput();
     static MenuOutput menuOutput = new MenuOutput();
-    static MenuAccount menuAccount = new MenuAccount();
+
    public void menu(Scanner scanner){
        int choice;
        boolean check = true;
@@ -38,10 +38,6 @@ public class MenuAdmin {
                            break;
                        case 4:
                            menuOutput.mainOutput(scanner);
-                           check=false;
-                           break;
-                       case 5:
-                           menuAccount.menuAccountManage(scanner);
                            check=false;
                            break;
                    }

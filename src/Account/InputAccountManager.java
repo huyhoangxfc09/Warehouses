@@ -1,16 +1,16 @@
 package Account;
 
-import MenuAdminManager.MenuAdmin;
-import MenuUserManager.MenuUser;
+import MenuInput.InputAccount;
 
+import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AccountManager {
-    private Map<String, String> mapAccount = new HashMap<String, String>();
-    private List<Account> listAccount = new ArrayList<>();
+public class InputAccountManager {
+    private List<Account> listAccountInput = new ArrayList<>();
     private final String REGEX = "^[A-Za-z1-9]{5,16}";
+    public String pathInputAccount = "C:\\Users\\PC\\OneDrive\\Desktop\\CaseStudyModule2\\Warehouses\\src\\FileSave\\InputAccount";
 
     public void creatAccount(Scanner scanner) {
         boolean check = true;
@@ -68,12 +68,12 @@ public class AccountManager {
         }
         System.out.println("Successfully added account.");
         Account account = new Account(name, password);
-        listAccount.add(account);
+        listAccountInput.add(account);
     }
 
     public Account checkAccount(String name) {
-        for (int i = 0; i < listAccount.size(); i++) {
-            Account account = listAccount.get(i);
+        for (int i = 0; i < listAccountInput.size(); i++) {
+            Account account = listAccountInput.get(i);
             if (name.equalsIgnoreCase(account.getName())) {
                 return account;
             }
@@ -84,54 +84,36 @@ public class AccountManager {
         System.out.println("Enter the account name to delete: ");
         String name = scanner.nextLine();
         Account tempt = null;
-        for (Account e : listAccount) {
+        for (Account e : listAccountInput) {
             if (e.getName().equals(name)){
                 tempt =e;
             }
         }
         if (tempt!=null){
-            listAccount.remove(tempt);
+            listAccountInput.remove(tempt);
         }else {
             System.out.println("Failed to check again.");
         }
     }
     public void displayAccount(){
         title();
-        for (Account e:listAccount) {
+        for (Account e: listAccountInput) {
             e.displayAccount();
         }
     }
     public void title(){
         System.out.printf("%-25s%s","ACCOUNT","PASSWORD\n");
     }
-    public void loginAdmin(Scanner scanner) {
-        MenuAdmin menuAdmin = new MenuAdmin();
-        int count = 0;
-        while (count <= 3) {
-            System.out.println("Enter account name: ");
-            String name = scanner.nextLine();
-            System.out.println("Enter account password: ");
-            String password = scanner.nextLine();
-            if (name.equalsIgnoreCase("admin")
-                    & password.equalsIgnoreCase("admin123456")) {
-                System.out.println("Admin login successful.");
-                menuAdmin.menu(scanner);
-                break;
-            }else {
-                System.err.println("Wrong account entered. Please re-enter.");
-                count++;
-            }
-        }
-    }
+
     public boolean checkAccountUser(String name, String password){
-        for (Account e : listAccount) {
+        for (Account e : listAccountInput) {
             if (name.equals(e.getName())& password.equals(e.getPassword())){
                return true;
             }
         }return false;
     }
-    public void loginUser(Scanner scanner){
-        MenuUser menuUser = new MenuUser();
+    public void loginUserInput(Scanner scanner){
+        InputAccount inputAccount = new InputAccount();
         int count =0;
         while (count<=3){
             System.out.println("Enter account name: ");
@@ -140,14 +122,39 @@ public class AccountManager {
             String password = scanner.nextLine();
             if (checkAccountUser(name,password)){
                 System.out.println("Login successful.");
-                menuUser.menu(scanner);
+                inputAccount.menu(scanner);
+                break;
             }else {
                 System.out.println("Wrong account entered. Please re-enter.");
                 count++;
             }
         }
-
-
+    }
+    public void outputFile(String path) {
+        File file = new File(path);
+        try {
+            OutputStream os = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(os);
+            oos.writeObject(listAccountInput);
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void inputFile(String path) {
+        File file = new File(path);
+        try {
+            InputStream is = new FileInputStream(file);
+            if (is.available() > 0) {
+                ObjectInputStream ois = new ObjectInputStream(is);
+                listAccountInput = (List<Account>) ois.readObject();
+                ois.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

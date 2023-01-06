@@ -1,19 +1,20 @@
-package MenuAdminManager;
+package Admin;
 
-import Account.AccountManager;
+import Account.InputAccountManager;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MenuAccount {
-    static AccountManager accountManager = new AccountManager();
+public class MenuInputAccount {
+    static InputAccountManager inputAccountManager = new InputAccountManager();
     public void menuAccountManage(Scanner scanner){
+        inputAccountManager.inputFile(inputAccountManager.pathInputAccount);
         int choice;
         boolean check = true;
         while (check) {
             try {
                 do {
-                    System.out.println("-----MENU ACCOUNT-----");
+                    System.out.println("-----MENU INPUT ACCOUNT-----");
                     System.out.println("1. Add new account. ");
                     System.out.println("2. Delete new account. ");
                     System.out.println("3. Display account. ");
@@ -22,13 +23,18 @@ public class MenuAccount {
                     choice = Integer.parseInt(scanner.nextLine());
                     switch (choice) {
                         case 1:
-                            accountManager.creatAccount(scanner);
+                            inputAccountManager.creatAccount(scanner);
+                            inputAccountManager.outputFile(inputAccountManager.pathInputAccount);
+                            check =false;
                             break;
                         case 2:
-                            accountManager.deleteAccount(scanner);
+                            inputAccountManager.deleteAccount(scanner);
+                            inputAccountManager.outputFile(inputAccountManager.pathInputAccount);
+                            check =false;
                             break;
                         case 3:
-                            accountManager.displayAccount();
+                            inputAccountManager.displayAccount();
+                            check =false;
                             break;
                     }
                 } while (choice != 0);
