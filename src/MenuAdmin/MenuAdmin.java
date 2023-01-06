@@ -1,4 +1,4 @@
-package MenuAdminManager;
+package MenuAdmin;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

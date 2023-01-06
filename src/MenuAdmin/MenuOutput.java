@@ -1,9 +1,6 @@
-package MenuAdminManager;
+package MenuAdmin;
 
-import Manager.CompanyManager;
-import Manager.InputManager;
-import Manager.OutputManager;
-import Manager.ProductManager;
+import Manager.*;
 import OptionClass.OutputWarehouse;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -13,7 +10,8 @@ public class MenuOutput {
         ProductManager productManager = new ProductManager();
         CompanyManager companyManager = new CompanyManager(productManager);
         InputManager inputManager = new InputManager(companyManager);
-        OutputManager outputManager = new OutputManager(inputManager);
+        CustomerManager customerManager = new CustomerManager();
+        OutputManager outputManager = new OutputManager(inputManager,customerManager);
         productManager.inputFile(productManager.pathProduct);
         companyManager.inputFile(companyManager.pathCompany);
         inputManager.inputFile(inputManager.pathInput);

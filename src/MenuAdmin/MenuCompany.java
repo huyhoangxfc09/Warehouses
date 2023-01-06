@@ -1,4 +1,4 @@
-package MenuAdminManager;
+package MenuAdmin;
 
 import Manager.CompanyManager;
 import Manager.ProductManager;

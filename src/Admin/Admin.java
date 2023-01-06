@@ -1,6 +1,6 @@
 package Admin;
 
-import MenuAdminManager.MenuAdmin;
+import MenuAdmin.MenuAdmin;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

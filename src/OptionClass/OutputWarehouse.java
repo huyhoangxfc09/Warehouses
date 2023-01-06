@@ -7,16 +7,16 @@ public class OutputWarehouse implements Serializable {
     private int number;
     private Date date;
     private String code;
-    private String name;
+    private Customer customer;
     private InputWarehouse inputWarehouse;
     private int quantity;
     private double total;
 
-    public OutputWarehouse(int number, Date date, String code, String name, InputWarehouse inputWarehouse, int quantity,double total) {
+    public OutputWarehouse(int number, Date date, String code, Customer customer, InputWarehouse inputWarehouse, int quantity, double total) {
         this.number = number;
         this.date = date;
         this.code = code;
-        this.name = name;
+        this.customer = customer;
         this.inputWarehouse = inputWarehouse;
         this.quantity = quantity;
         this.total = total;
@@ -46,12 +46,12 @@ public class OutputWarehouse implements Serializable {
         this.code = code;
     }
 
-    public String getName() {
-        return name;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public InputWarehouse getInputWarehouse() {
@@ -79,6 +79,6 @@ public class OutputWarehouse implements Serializable {
     }
     public void displayOutput(){
         System.out.printf("%-10s%-30s%-20s%-25s%-25s%-25s%-10s%s",
-                number,date,code,name,inputWarehouse.getCompany().getProduct().getName(),inputWarehouse.getCode(),quantity,total+"\n");
+                number,date,code,customer.getCompany(),inputWarehouse.getCompany().getProduct().getName(),inputWarehouse.getCode(),quantity,total+"\n");
     }
 }

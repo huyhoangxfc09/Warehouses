@@ -1,11 +1,12 @@
 package MenuOutput;
-import MenuAdminManager.MenuOutput;
+import MenuAdmin.MenuOutput;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class OutputAccount {
     public void menu(Scanner scanner){
         MenuOutput menuOutput = new MenuOutput();
+        MenuCustomer menuCustomer = new MenuCustomer();
         int choice;
         boolean check = true;
         while (check) {
@@ -13,7 +14,7 @@ public class OutputAccount {
                 do {
                     System.out.println("-----MENU OUTPUT ACCOUNT-----");
                     System.out.println("1. Menu output warehouse. ");
-                    System.out.println("2. Out account management. ");
+                    System.out.println("2. Menu customer. ");
                     System.out.println("0. Exit.");
                     System.out.println("Enter your choice: ");
                     choice = Integer.parseInt(scanner.nextLine());
@@ -23,7 +24,7 @@ public class OutputAccount {
                             check = false;
                             break;
                         case 2:
-
+                            menuCustomer.menu(scanner);
                             check = false;
                             break;
 

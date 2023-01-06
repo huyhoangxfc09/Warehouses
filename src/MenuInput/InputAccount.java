@@ -1,8 +1,8 @@
 package MenuInput;
 
-import MenuAdminManager.MenuCompany;
-import MenuAdminManager.MenuInput;
-import MenuAdminManager.MenuProduct;
+import MenuAdmin.MenuCompany;
+import MenuAdmin.MenuInput;
+import MenuAdmin.MenuProduct;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

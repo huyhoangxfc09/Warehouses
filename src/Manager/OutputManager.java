@@ -1,5 +1,6 @@
 package Manager;
 
+import OptionClass.Customer;
 import OptionClass.InputWarehouse;
 import OptionClass.OutputWarehouse;
 
@@ -8,12 +9,14 @@ import java.util.*;
 
 public class OutputManager implements CRUD<OutputWarehouse> {
     private ArrayList<OutputWarehouse> listOutput;
-    private  InputManager inputManager;
+    private  final InputManager inputManager;
+    public final CustomerManager customerManager;
     static int index = 0;
 
-    public OutputManager(InputManager inputManager) {
+    public OutputManager(InputManager inputManager, CustomerManager customerManager) {
         listOutput = new ArrayList<>();
         this.inputManager = inputManager;
+        this.customerManager = customerManager;
     }
     public  String pathOutput = "C:\\Users\\PC\\OneDrive\\Desktop\\CaseStudyModule2\\Warehouses\\src\\FileSave\\Output";
 
@@ -34,8 +37,8 @@ public class OutputManager implements CRUD<OutputWarehouse> {
         System.out.println("Enter warehouse code: ");
         String code = scanner.nextLine();
         if (!checkCode(code)) {
-            System.out.println("Enter customer name: ");
-            String name = scanner.nextLine();
+            customerManager.displayAll(customerManager.getListCustomer());
+            Customer customer = choiceCompany(scanner);
             inputManager.displayAll(inputManager.getListInput());
             InputWarehouse inputWarehouse = choiceInput(scanner);
             double tempt = inputWarehouse.getCompany().getProduct().getPrice();
@@ -61,7 +64,7 @@ public class OutputManager implements CRUD<OutputWarehouse> {
                 }
             }
             double total = quantity*tempt;
-            return new OutputWarehouse(number,date,code,name,inputWarehouse,quantity,total);
+            return new OutputWarehouse(number,date,code,customer,inputWarehouse,quantity,total);
         }
         return null;
     }
@@ -86,9 +89,9 @@ public class OutputManager implements CRUD<OutputWarehouse> {
             for (OutputWarehouse e : listOutput){
                 if (e.getCode().equals(code)){
                     e.setDate(new Date());
-                    System.out.println("Enter new customer name:");
-                    String name = scanner.nextLine();
-                    e.setName(name);
+                    customerManager.displayAll(customerManager.getListCustomer());
+                    Customer customer = choiceCompany(scanner);
+                    e.setCustomer(customer);
                     System.out.println("Do you want to change the product?");
                     System.out.println("Enter Y to update and any keyword to skip: ");
                     String choiceP = scanner.nextLine();
@@ -235,6 +238,33 @@ public class OutputManager implements CRUD<OutputWarehouse> {
             return inputWarehouse;
         }else {
             return choiceInput(scanner);
+        }
+    }
+    public Customer choiceCompany(Scanner scanner) {
+        Customer customer;
+        boolean check = true;
+        int id = 0;
+        while (check) {
+            try {
+                System.out.println("Enter choice company by number: (Enter 0 for creat new.)");
+                id = Integer.parseInt(scanner.nextLine());
+                check = false;
+            } catch (InputMismatchException | NumberFormatException e) {
+                System.out.println("Re-enter.");
+            }
+        }
+        if (id==0){
+            customer = customerManager.create(scanner);
+            customerManager.add(customer);
+            customerManager.outputFile(customerManager.pathCustomer);
+            customerManager.inputFile(customerManager.pathCustomer);
+        }else {
+            customer = customerManager.getByNumber(id);
+        }
+        if (customer!=null){
+            return customer;
+        }else {
+            return choiceCompany(scanner);
         }
     }
 
