@@ -3,6 +3,7 @@ package Manager;
 import OptionClass.Customer;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -33,24 +34,39 @@ public class CustomerManager {
         System.out.println("Enter the buyer's name: ");
         String name = scanner.nextLine();
         String citizen;
-        int citizenID = 0;
+        long citizenID = 0;
         boolean check = true;
         while (check) {
-            System.out.println("Enter citizen ID:");
-            citizen = scanner.nextLine();
-            Pattern pattern = Pattern.compile(REGEX);
-            Matcher matcher = pattern.matcher(citizen);
-            if (matcher.matches()) {
-                citizenID = Integer.parseInt(citizen);
-                check = false;
+            try{
+                System.out.println("Enter citizen ID:");
+                citizen = scanner.nextLine();
+                Pattern pattern = Pattern.compile(REGEX);
+                Matcher matcher = pattern.matcher(citizen);
+                if (matcher.matches()) {
+                    citizenID = Long.parseLong(citizen);
+                    check = false;
+                }
+            }catch (InputMismatchException | NumberFormatException exception){
+                System.out.println("Re-enter citizenID.");
             }
+
         }
         System.out.println("Enter company name: ");
         String company = scanner.nextLine();
         System.out.println("Enter company address: ");
         String address = scanner.nextLine();
-        System.out.println("Enter phone number: ");
-        int phone = Integer.parseInt(scanner.nextLine());
+        check = true;
+        long phone = 0;
+        while (check){
+            try{
+                System.out.println("Enter phone number: ");
+                phone = Long.parseLong(scanner.nextLine());
+                check =false;
+            }catch (InputMismatchException | NumberFormatException exception){
+                System.out.println("Re-enter citizenID.");
+            }
+        }
+
         return new Customer(number, name, citizenID, company, address, phone);
     }
 
@@ -71,17 +87,22 @@ public class CustomerManager {
                 String name = scanner.nextLine();
                 e.setName(name);
                 String citizen;
-                int citizenID = 0;
+                long citizenID = 0;
                 boolean check = true;
                 while (check) {
-                    System.out.println("Enter citizen ID:");
-                    citizen = scanner.nextLine();
-                    Pattern pattern = Pattern.compile(REGEX);
-                    Matcher matcher = pattern.matcher(citizen);
-                    if (matcher.matches()) {
-                        citizenID = Integer.parseInt(citizen);
-                        check = false;
+                    try{
+                        System.out.println("Enter citizen ID:");
+                        citizen = scanner.nextLine();
+                        Pattern pattern = Pattern.compile(REGEX);
+                        Matcher matcher = pattern.matcher(citizen);
+                        if (matcher.matches()) {
+                            citizenID = Long.parseLong(citizen);
+                            check = false;
+                        }
+                    }catch (InputMismatchException | NumberFormatException exception){
+                        System.out.println("Re-enter citizenID.");
                     }
+
                 }
                 e.setCitizenID(citizenID);
                 System.out.println("Enter company name: ");
@@ -90,8 +111,17 @@ public class CustomerManager {
                 System.out.println("Enter company address: ");
                 String address = scanner.nextLine();
                 e.setAddress(address);
-                System.out.println("Enter phone number: ");
-                int phone = Integer.parseInt(scanner.nextLine());
+                check = true;
+                long phone = 0;
+                while (check){
+                    try {
+                        System.out.println("Enter phone number: ");
+                        phone = Long.parseLong(scanner.nextLine());
+                        check = false;
+                    }catch (InputMismatchException | NumberFormatException exception){
+                        System.out.println("Re-enter citizenID.");
+                    }
+                }
                 e.setPhone(phone);
                 System.out.println("Update successfully.");
                 title();
@@ -166,7 +196,7 @@ public class CustomerManager {
     }
 
     public void title() {
-        System.out.printf("%-10s%-30s%-30s%-30s%-30s%s",
+        System.out.printf("%-10s%-30s%-30s%-30s%-70s%s",
                 "NUMBER", "NAME", "CITIZEN ID", "COMPANY", "ADDRESS", "PHONE NUMBER\n");
     }
 

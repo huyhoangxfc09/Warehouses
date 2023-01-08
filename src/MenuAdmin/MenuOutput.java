@@ -16,6 +16,7 @@ public class MenuOutput {
         companyManager.inputFile(companyManager.pathCompany);
         inputManager.inputFile(inputManager.pathInput);
         outputManager.inputFile(outputManager.pathOutput);
+        customerManager.inputFile(customerManager.pathCustomer);
         int choice;
         boolean check = true;
         while (check) {
@@ -58,10 +59,11 @@ public class MenuOutput {
                             outputManager.displayAll(outputManager.getListOutput());
                             check = false;
                             break;
+                        case 0:
+                            check = false;
                     }
                 } while (choice != 0);
             } catch (InputMismatchException | NumberFormatException e) {
-                e.printStackTrace();
                 System.out.println("Re-enter choice.");
             }
         }

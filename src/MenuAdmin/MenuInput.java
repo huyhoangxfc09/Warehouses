@@ -61,6 +61,8 @@ public class MenuInput {
                             inputManager.displayAll(inputManager.getListInput());
                             check = false;
                             break;
+                        case 0:
+                            check = false;
                     }
                 } while (choice != 0);
             } catch (InputMismatchException | NumberFormatException e) {

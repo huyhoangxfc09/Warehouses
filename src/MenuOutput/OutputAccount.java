@@ -33,6 +33,8 @@ public class OutputAccount {
                             menuBill.menu(scanner);
                             check = false;
                             break;
+                        case 0:
+                            check = false;
 
                     }
                 } while (choice != 0);

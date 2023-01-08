@@ -63,6 +63,8 @@ public class MenuProduct {
                             productManager.displayAll(productManager.getListProduct());
                             check = false;
                             break;
+                        case 0:
+                            check = false;
                     }
                 } while (choice != 0);
             } catch (InputMismatchException | NumberFormatException e) {

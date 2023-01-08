@@ -51,6 +51,6 @@ public class Bill implements Serializable {
     public void displayBill(){
         System.out.printf("%-10s%-30s%-20s%-25s%-20s%-20s%-30s%-10s%s",
                 number,date,outputWarehouse.getCode(),customer.getName(),customer.getCitizenID(),customer.getCompany(),
-                outputWarehouse.getInputWarehouse().getCompany().getProduct(),outputWarehouse.getQuantity(),outputWarehouse.getTotal()+"\n");
+                outputWarehouse.getInputWarehouse().getCompany().getProduct().getName(),outputWarehouse.getQuantity(),outputWarehouse.getTotal()+"\n");
     }
 }
