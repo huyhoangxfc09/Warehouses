@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 public class CustomerManager {
     static int index = 0;
     private final String REGEX = "^[0-9]{12}";
+    private final String regexPhone = "^[0-9]{8,12}";
     private ArrayList<Customer> listCustomer;
 
     public CustomerManager() {
@@ -33,17 +34,15 @@ public class CustomerManager {
         }
         System.out.println("Enter the buyer's name: ");
         String name = scanner.nextLine();
-        String citizen;
-        long citizenID = 0;
+        String citizenID = null;
         boolean check = true;
         while (check) {
             try{
                 System.out.println("Enter citizen ID:");
-                citizen = scanner.nextLine();
+                citizenID = scanner.nextLine();
                 Pattern pattern = Pattern.compile(REGEX);
-                Matcher matcher = pattern.matcher(citizen);
+                Matcher matcher = pattern.matcher(citizenID);
                 if (matcher.matches()) {
-                    citizenID = Long.parseLong(citizen);
                     check = false;
                 }
             }catch (InputMismatchException | NumberFormatException exception){
@@ -56,12 +55,16 @@ public class CustomerManager {
         System.out.println("Enter company address: ");
         String address = scanner.nextLine();
         check = true;
-        long phone = 0;
+        String phone = null;
         while (check){
             try{
                 System.out.println("Enter phone number: ");
-                phone = Long.parseLong(scanner.nextLine());
-                check =false;
+                phone = scanner.nextLine();
+                Pattern pattern = Pattern.compile(regexPhone);
+                Matcher matcher = pattern.matcher(phone);
+                if (matcher.matches()) {
+                    check = false;
+                }
             }catch (InputMismatchException | NumberFormatException exception){
                 System.out.println("Re-enter citizenID.");
             }
@@ -86,17 +89,15 @@ public class CustomerManager {
                 System.out.println("Enter the buyer's name: ");
                 String name = scanner.nextLine();
                 e.setName(name);
-                String citizen;
-                long citizenID = 0;
+                String citizenID = null;
                 boolean check = true;
                 while (check) {
                     try{
                         System.out.println("Enter citizen ID:");
-                        citizen = scanner.nextLine();
+                        citizenID = scanner.nextLine();
                         Pattern pattern = Pattern.compile(REGEX);
-                        Matcher matcher = pattern.matcher(citizen);
+                        Matcher matcher = pattern.matcher(citizenID);
                         if (matcher.matches()) {
-                            citizenID = Long.parseLong(citizen);
                             check = false;
                         }
                     }catch (InputMismatchException | NumberFormatException exception){
@@ -112,12 +113,16 @@ public class CustomerManager {
                 String address = scanner.nextLine();
                 e.setAddress(address);
                 check = true;
-                long phone = 0;
+                String phone = null;
                 while (check){
                     try {
                         System.out.println("Enter phone number: ");
-                        phone = Long.parseLong(scanner.nextLine());
-                        check = false;
+                        phone = scanner.nextLine();
+                        Pattern pattern = Pattern.compile(regexPhone);
+                        Matcher matcher = pattern.matcher(phone);
+                        if (matcher.matches()) {
+                            check = false;
+                        }
                     }catch (InputMismatchException | NumberFormatException exception){
                         System.out.println("Re-enter citizenID.");
                     }
