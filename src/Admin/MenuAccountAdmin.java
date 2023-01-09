@@ -12,7 +12,7 @@ public class MenuAccountAdmin {
         while (check) {
             try {
                 do {
-                    System.out.println("-----MENU INPUT ACCOUNT-----");
+                    System.out.println("-----MENU ADMIN ACCOUNT-----");
                     System.out.println("1. Default account. ");
                     System.out.println("2. Update  admin account. ");
                     System.out.println("3. Display  admin account. ");

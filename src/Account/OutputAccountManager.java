@@ -27,15 +27,14 @@ public class OutputAccountManager {
             Pattern pattern = Pattern.compile(REGEX);
             Matcher matcher = pattern.matcher(name);
             if (matcher.matches()) {
-                if (name.equalsIgnoreCase("admin")) {
-                    System.out.println("Can't create with this name");
-                } else {
-                    check = false;
-                }
-                if (checkAccount(name) != null) {
-                    System.out.println("This account has already existed.");
-                } else {
-                    check = false;
+                if (!name.equalsIgnoreCase("admin")) {
+                    if (checkAccount(name) != null) {
+                        System.out.println("This account has already existed.");
+                    } else {
+                        check = false;
+                    }
+                }else {
+                    System.out.println("Review!");
                 }
             } else {
                 System.out.println("Account must be at least 5 characters and no special characters");
