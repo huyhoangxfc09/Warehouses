@@ -1,41 +1,44 @@
-package MenuOutput;
-import MenuAdmin.MenuOutput;
+package Admin;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class OutputAccount {
-    public void menu(Scanner scanner){
-        MenuOutput menuOutput = new MenuOutput();
-        MenuCustomer menuCustomer = new MenuCustomer();
-        MenuBill menuBill = new MenuBill();
+public class MenuAccountAdmin {
+    static LoginAdmin loginAdmin = new LoginAdmin();
+    public void menuAccountManage(Scanner scanner) {
+        loginAdmin.inputFile(loginAdmin.pathAdmin);
         int choice;
         boolean check = true;
         while (check) {
             try {
                 do {
-                    System.out.println("-----MENU OUTPUT ACCOUNT-----");
-                    System.out.println("1. Menu output warehouse. ");
-                    System.out.println("2. Menu customer. ");
-                    System.out.println("3. Menu bill. ");
+                    System.out.println("-----MENU INPUT ACCOUNT-----");
+                    System.out.println("1. Default account. ");
+                    System.out.println("2. Update  admin account. ");
+                    System.out.println("3. Display  admin account. ");
                     System.out.println("0. Exit.");
                     System.out.println("Enter your choice: ");
                     choice = Integer.parseInt(scanner.nextLine());
                     switch (choice) {
                         case 1:
-                            menuOutput.mainOutput(scanner);
+                            loginAdmin.defaultAccount();
+                            loginAdmin.outputFile(loginAdmin.pathAdmin);
                             check = false;
                             break;
                         case 2:
-                            menuCustomer.menu(scanner);
+                            loginAdmin.displayAdmin(loginAdmin.getList());
+                            loginAdmin.update(scanner);
+                            loginAdmin.outputFile(loginAdmin.pathAdmin);
                             check = false;
                             break;
                         case 3:
-                            menuBill.menu(scanner);
+                            loginAdmin.displayAdmin(loginAdmin.getList());
+                            loginAdmin.outputFile(loginAdmin.pathAdmin);
                             check = false;
                             break;
+
                         case 0:
                             check = false;
-
                     }
                 } while (choice != 0);
             } catch (InputMismatchException | NumberFormatException e) {

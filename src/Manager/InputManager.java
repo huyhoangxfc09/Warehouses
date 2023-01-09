@@ -8,7 +8,7 @@ import java.util.*;
 
 public class InputManager implements CRUD<InputWarehouse> {
     private ArrayList<InputWarehouse> listInput;
-    private  CompanyManager companyManager;
+    private   final CompanyManager companyManager;
     static int index = 0;
 
     public InputManager(CompanyManager companyManager) {

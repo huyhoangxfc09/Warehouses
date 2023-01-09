@@ -12,6 +12,9 @@ public class OutputAccountManager {
     private List<Account> listAccountOutput = new ArrayList<>();
     private final String REGEX = "^[A-Za-z0-9]{5,16}";
     public String pathOutputAccount = "C:\\Users\\PC\\OneDrive\\Desktop\\CaseStudyModule2\\Warehouses\\src\\FileSave\\OutputAccount";
+    public List<Account> getListAccountOutput(){
+        return listAccountOutput;
+    }
 
     public void creatAccount(Scanner scanner) {
         boolean check = true;
@@ -91,14 +94,19 @@ public class OutputAccountManager {
                 }
             }
             check = true;
-            System.out.println("Confirm password: ");
             while (check) {
-                System.out.println("Enter password: ");
+                System.out.println("Confirm password: ");
                 passwordRe = scanner.nextLine();
                 Pattern pattern = Pattern.compile(REGEX);
                 Matcher matcher = pattern.matcher(passwordRe);
                 if ((matcher.matches())) {
                     if (passwordRe.equals(password)) {
+                        for (Account e : listAccountOutput){
+                            if (e.getName().equals(name)){
+                                e.setPassword(password);
+                            }
+                        }
+                        System.out.println("Change password successfully!");
                         check = false;
                     } else {
                         System.out.println("Password incorrect. Please re-enter.");
@@ -109,8 +117,6 @@ public class OutputAccountManager {
 
             }
         }
-
-
     }
     public boolean checkName(String name) {
         for (Account e:listAccountOutput) {
@@ -140,11 +146,12 @@ public class OutputAccountManager {
         }
         if (tempt!=null){
             listAccountOutput.remove(tempt);
+            System.out.println("Delete successfully!");
         }else {
             System.out.println("Failed to check again.");
         }
     }
-    public void displayAccount(){
+    public void displayAccount(List<Account>listAccountOutput){
         title();
         for (Account e: listAccountOutput) {
             e.displayAccount();

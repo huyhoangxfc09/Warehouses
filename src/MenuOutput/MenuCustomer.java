@@ -56,7 +56,6 @@ public class MenuCustomer {
                     }
                 } while (choice != 0);
             } catch (InputMismatchException | NumberFormatException e) {
-                e.printStackTrace();
                 System.out.println("Re-enter choice.");
             }
         }

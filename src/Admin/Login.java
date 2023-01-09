@@ -2,8 +2,6 @@ package Admin;
 
 import Account.InputAccountManager;
 import Account.OutputAccountManager;
-import Admin.LoginAdmin;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -14,6 +12,7 @@ public class Login {
     public void login(Scanner scanner){
         outputAccountManager.inputFile(outputAccountManager.pathOutputAccount);
         inputAccountManager.inputFile(inputAccountManager.pathInputAccount);
+        loginAdmin.inputFile(loginAdmin.pathAdmin);
         int choice;
         boolean check = true;
         while (check) {
@@ -42,7 +41,6 @@ public class Login {
                     }
                 } while (choice != 0);
             } catch (InputMismatchException | NumberFormatException e) {
-                e.printStackTrace();
                 System.out.println("Re-enter choice.");
             }
         }

@@ -11,6 +11,9 @@ public class InputAccountManager {
     private List<Account> listAccountInput = new ArrayList<>();
     private final String REGEX = "^[A-Za-z0-9]{5,16}";
     public String pathInputAccount = "C:\\Users\\PC\\OneDrive\\Desktop\\CaseStudyModule2\\Warehouses\\src\\FileSave\\InputAccount";
+    public List<Account> getListAccountInput(){
+        return listAccountInput;
+    }
 
     public void creatAccount(Scanner scanner) {
         boolean check = true;
@@ -77,9 +80,8 @@ public class InputAccountManager {
         String passwordRe;
         if (checkName(name)){
             boolean check = true;
-
             while (check) {
-                System.out.println("Enter password: ");
+                System.out.println("Enter new password: ");
                 password = scanner.nextLine();
                 Pattern pattern = Pattern.compile(REGEX);
                 Matcher matcher = pattern.matcher(password);
@@ -90,14 +92,19 @@ public class InputAccountManager {
                 }
             }
             check = true;
-            System.out.println("Confirm password: ");
             while (check) {
-                System.out.println("Enter password: ");
+                System.out.println("Confirm password: ");
                 passwordRe = scanner.nextLine();
                 Pattern pattern = Pattern.compile(REGEX);
                 Matcher matcher = pattern.matcher(passwordRe);
                 if ((matcher.matches())) {
                     if (passwordRe.equals(password)) {
+                        for (Account e : listAccountInput){
+                            if (e.getName().equals(name)){
+                                e.setPassword(password);
+                            }
+                        }
+                        System.out.println("Change password successfully!");
                         check = false;
                     } else {
                         System.out.println("Password incorrect. Please re-enter.");
@@ -105,10 +112,8 @@ public class InputAccountManager {
                 } else {
                     System.out.println("Password must be at least 5 characters and no special characters");
                 }
-
             }
         }
-
 
     }
     public boolean checkName(String name) {
@@ -140,11 +145,12 @@ public class InputAccountManager {
         }
         if (tempt!=null){
             listAccountInput.remove(tempt);
+            System.out.println("Delete successfully!");
         }else {
             System.out.println("Failed to check again.");
         }
     }
-    public void displayAccount(){
+    public void displayAccount(List<Account>listAccountInput){
         title();
         for (Account e: listAccountInput) {
             e.displayAccount();

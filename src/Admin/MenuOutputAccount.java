@@ -27,17 +27,19 @@ public class MenuOutputAccount {
                             check =false;
                             break;
                         case 2:
+                            outputAccountManager.displayAccount(outputAccountManager.getListAccountOutput());
                             outputAccountManager.deleteAccount(scanner);
                             outputAccountManager.outputFile(outputAccountManager.pathOutputAccount);
                             check =false;
                             break;
                         case 3:
+                            outputAccountManager.displayAccount(outputAccountManager.getListAccountOutput());
                             outputAccountManager.update(scanner);
                             outputAccountManager.outputFile(outputAccountManager.pathOutputAccount);
                             check =false;
                             break;
                         case 4:
-                            outputAccountManager.displayAccount();
+                            outputAccountManager.displayAccount(outputAccountManager.getListAccountOutput());
                             check =false;
                             break;
                         case 0:
@@ -45,7 +47,6 @@ public class MenuOutputAccount {
                     }
                 } while (choice != 0);
             } catch (InputMismatchException | NumberFormatException e) {
-                e.printStackTrace();
                 System.out.println("Re-enter choice.");
             }
         }
